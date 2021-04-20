@@ -1,0 +1,10 @@
+data <- read.delim('household_power_consumption.txt', sep=";")
+data$Date <- as.Date(data$Date,format='%d/%m/%Y')
+OData <- subset(data,data$Date %in% c(as.Date('2007-02-02'),as.Date('2007-02-01')))
+OData$Global_active_power <- as.numeric(OData$Global_active_power)
+DateTime <- strptime(paste(OData$Date,OData$Time), format='%Y-%m-%d %H:%M:%S')
+
+png(filename='plot2.png')
+plot(DateTime,OData$Global_active_power, ylab='Global Active Power (kilowatts)',xlab='',type='n')
+lines(DateTime,OData$Global_active_power)
+dev.off()

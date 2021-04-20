@@ -1,0 +1,13 @@
+data <- read.delim('household_power_consumption.txt', sep=";")
+data$Date <- as.Date(data$Date,format='%d/%m/%Y')
+OData <- subset(data,data$Date %in% c(as.Date('2007-02-02'),as.Date('2007-02-01')))
+OData$Global_active_power <- as.numeric(OData$Global_active_power)
+DateTime <- strptime(paste(OData$Date,OData$Time), format='%Y-%m-%d %H:%M:%S')
+
+png(filename='plot3.png')
+plot(DateTime,OData$Sub_metering_1, ylab='Energy sub metering',xlab='',type='n')
+lines(DateTime,OData$Sub_metering_1)
+lines(DateTime,OData$Sub_metering_2,col='red')
+lines(DateTime,OData$Sub_metering_3,col='blue')
+legend('topright',lty=c(1,1,1),col=c('black','red','blue'),legend=c('Sub_metering_1','Sub_metering_2','Sub_metering_3'))
+dev.off()
